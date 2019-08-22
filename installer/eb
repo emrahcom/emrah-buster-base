@@ -55,7 +55,6 @@ export FREE_SPACE=$((df | grep "/var/lib/lxc$"
 #    export DONT_RUN_BUSTER=true
 #    export BRIDGE="br0"
 # -----------------------------------------------------------------------------
-[ -e "$BASEDIR/$BASE_CONFIG" ] && source "$BASEDIR/$BASE_CONFIG"
 [ -e "$BASEDIR/$APP_CONFIG" ] && source "$BASEDIR/$APP_CONFIG"
 
 # -----------------------------------------------------------------------------
