@@ -10,8 +10,8 @@ Table of contents
 About
 =====
 
-This repository is the infrastructure for the emrah-buster installer.
-emrah-buster is an installer to create the containerized systems on
+This repository is the infrastructure of the `emrah-buster` installer.
+`emrah-buster` is an installer to create the containerized systems on
 Debian Buster host.
 
 ---
@@ -32,7 +32,7 @@ bash eb eb-base
 Requirements
 ============
 
-`emrah-buster` requires a Debian Buster host with a minimal install and
+`emrah-buster` requires a Debian Buster host with a minimal install and the
 Internet access during the installation. It's not a good idea to use your
 desktop machine or an already in-use production server as a host machine.
 Please, use one of the followings as a host:
