@@ -3,6 +3,7 @@ Table of contents
 
 - [About](#about)
 - [Usage](#usage)
+- [Templates](#templates)
 - [Requirements](#requirements)
 
 ---
