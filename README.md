@@ -29,6 +29,15 @@ bash eb eb-base
 
 ---
 
+Templates
+=========
+
+See the
+[emrah-buster-templates](https://github.com/emrahcom/emrah-buster-templates)
+repository for the available templates.
+
+---
+
 Requirements
 ============
 
