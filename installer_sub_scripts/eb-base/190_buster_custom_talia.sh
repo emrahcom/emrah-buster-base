@@ -1,1 +1,0 @@
-../common/100_buster_custom_talia.sh
