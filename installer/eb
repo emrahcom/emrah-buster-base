@@ -1,0 +1,153 @@
+#!/bin/bash
+
+# -----------------------------------------------------------------------------
+# EB (emrah-buster) INSTALLER
+# -----------------------------------------------------------------------------
+# The first argument is the template name and we need it.
+if [ -z "$1" ]
+then
+	echo "ERROR: missing argument. The template name is required"
+	echo "Usage:"
+	echo "         bash eb <TEMPLATE_NAME>"
+	exit 1
+fi
+
+export FREE_SPACE_NEEDED="1000000"
+export RELEASE="buster"
+
+export BASE_INSTALLER=eb-base
+export BASE_CONFIG="${BASE_INSTALLER}.conf"
+export BASE_REPO="https://github.com/emrahcom/emrah-buster-base.git"
+export BASE_BRANCH="master"
+export BASE_TMP_DIR="eb_base_tmp"
+
+export APP_INSTALLER="$(echo $1 | cut -d. -f1)"
+export APP_CONFIG="${APP_INSTALLER}.conf"
+export APP_REPO=
+export APP_BRANCH="master"
+export APP_TMP_DIR="eb_tmp"
+
+export BRIDGE="eb0"
+export SHARED="/usr/local/eb"
+
+# -----------------------------------------------------------------------------
+# STATUS
+# -----------------------------------------------------------------------------
+export START_TIME=$(date +%s)
+export DATE=$(date +"%Y%m%d%H%M%S")
+export BASEDIR=$(pwd)
+export SWAP=$(grep SwapTotal /proc/meminfo | awk '{ print $2; }')
+export FREE_SPACE=$((df | grep "/var/lib/lxc$"
+    df | grep "/var/lib$"
+    df | grep "/var$"
+    df | egrep "/$") | \
+    head -n1 | awk '{ print $4; }')
+
+# -----------------------------------------------------------------------------
+# CUSTOMIZATION
+# -----------------------------------------------------------------------------
+# Please set the related environment variables in CONFIG files to prevent to
+# run some scripts or to prevent to check some criteria during the installation
+#
+# Examples:
+#    export DONT_CLONE_GIT_REPO=true
+#    export DONT_RUN_HOST=true
+#    export DONT_RUN_BUSTER=true
+#    export BRIDGE="br0"
+# -----------------------------------------------------------------------------
+[ -e "$BASEDIR/$BASE_CONFIG" ] && source "$BASEDIR/$BASE_CONFIG"
+[ -e "$BASEDIR/$APP_CONFIG" ] && source "$BASEDIR/$APP_CONFIG"
+
+# -----------------------------------------------------------------------------
+# CHECKING THE HOST (which will host the LXC containers)
+# -----------------------------------------------------------------------------
+# If the current user is not 'root', cancel the installation.
+if [ "root" != "$(whoami)" ]
+then
+    echo
+    echo "ERROR: unauthorized user"
+    echo "Please, run the installation script as 'root'"
+    exit 1
+fi
+
+# If the OS release is unsupported, cancel the installation.
+if [ "$DONT_CHECK_OS_RELEASE" != true \
+     -a -z "$(grep "$RELEASE" /etc/os-release)" ]
+then
+    echo
+    echo "ERROR: unsupported OS release"
+    echo "Please, use '$RELEASE' on host machine"
+    exit 1
+fi
+
+# If there is not enough disk free space, cancel the installation.
+if [ "$DONT_CHECK_FREE_SPACE" != true \
+     -a "$FREE_SPACE" -lt "$FREE_SPACE_NEEDED" ]
+then
+    echo
+    echo "ERROR: there is not enough disk free space"
+    echo
+    df -h
+    exit 1
+fi
+
+set -e
+
+# -----------------------------------------------------------------------------
+# BASE PACKAGES
+# -----------------------------------------------------------------------------
+apt-get $APT_PROXY_OPTION update
+apt-get $APT_PROXY_OPTION -y install wget rsync
+apt-get $APT_PROXY_OPTION -y install git
+
+# -----------------------------------------------------------------------------
+# CLONING THE GIT REPO
+# -----------------------------------------------------------------------------
+if [ "$DONT_CLONE_GIT_REPO" != true ]
+then
+    rm -rf $BASE_TMP_DIR
+    git clone --depth=1 -b $BASE_BRANCH $BASE_REPO $BASE_TMP_DIR
+    rm -rf $BASE_TMP_DIR/{.git,.gitignore}
+
+    rm -rf $APP_TMP_DIR
+    [ -n "$APP_REPO" ] && \
+        git clone --depth=1 -b $APP_BRANCH $APP_REPO $APP_TMP_DIR
+    rm -rf $APP_TMP_DIR/{.git,.gitignore}
+fi
+
+# -----------------------------------------------------------------------------
+# MERGE THE BASE FOLDER WITH THE APPLICATION FOLDER
+# -----------------------------------------------------------------------------
+if [ "$BASE_INSTALLER" != "$APP_INSTALLER" ]
+then
+    rsync -av $BASEDIR/$APP_TMP_DIR/ $BASEDIR/$BASE_TMP_DIR/
+    rm -rf $BASEDIR/$APP_TMP_DIR
+fi
+
+mv $BASEDIR/$BASE_TMP_DIR $BASEDIR/$APP_TMP_DIR
+
+# -----------------------------------------------------------------------------
+# RUNNING THE SUB INSTALLATION SCRIPTS
+# -----------------------------------------------------------------------------
+export TMP=$APP_TMP_DIR
+export INSTALLER=$BASEDIR/$TMP/installer_sub_scripts/$APP_INSTALLER
+export MACHINES=$BASEDIR/$TMP/machines
+export MACHINE_HOST=$MACHINES/eb-host
+export MACHINE_BUSTER=$MACHINES/eb-buster
+export MACHINE_STRETCH=$MACHINES/eb-stretch
+
+cd $INSTALLER
+[ -f "init.sh" ] && bash init.sh
+
+for sub in $(ls *.sh | grep -v init.sh)
+do
+    bash $sub
+done
+
+# -----------------------------------------------------------------------------
+# INSTALLATION DURATION
+# -----------------------------------------------------------------------------
+END_TIME=$(date +%s)
+DURATION=$(date -u -d "0 $END_TIME seconds - $START_TIME seconds" +"%H:%M:%S")
+
+echo Installation Duration: $DURATION

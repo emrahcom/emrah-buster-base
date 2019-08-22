@@ -1,0 +1,4 @@
+address=/host/172.22.22.1
+address=/reserved/172.22.22.22
+address=/eb-stretch/172.22.22.253
+address=/eb-buster/172.22.22.254
