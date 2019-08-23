@@ -99,7 +99,7 @@ sleep 3
 # PACKAGES
 # -----------------------------------------------------------------------------
 # update
-lxc-attach -n $MACH -- apt-get $APT_PROXY_OPTION update
+lxc-attach -n $MACH -- apt-get $APT_PROXY_OPTION update; sleep 3
 lxc-attach -n $MACH -- apt-get $APT_PROXY_OPTION -y dist-upgrade
 lxc-attach -n $MACH -- apt-get $APT_PROXY_OPTION -y install apt-utils
 
