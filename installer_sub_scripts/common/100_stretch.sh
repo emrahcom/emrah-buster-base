@@ -43,7 +43,7 @@ then
     echo "if you want to reinstall this container"
 
     echo DONT_RUN_STRETCH_CUSTOM=true >> $INSTALLER/000_source
-    sleep 1
+    sleep 3
     exit
 fi
 
