@@ -37,9 +37,13 @@ echo "-------------------------- $MACH --------------------------"
 EXISTS=$(lxc-info -n $MACH | egrep '^State' || true)
 if [ -n "$EXISTS" -a "$REINSTALL_STRETCH_IF_EXISTS" != true ]
 then
-    echo "Already installed. Skipped"
+    echo "Already installed. Skipped..."
+    echo
+    echo "Please set REINSTALL_STRETCH_IF_EXISTS in $APP_CONFIG"
+    echo "if you want to reinstall this container"
 
     echo DONT_RUN_STRETCH_CUSTOM=true >> $INSTALLER/000_source
+    sleep 1
     exit
 fi
 
