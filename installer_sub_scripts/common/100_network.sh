@@ -114,8 +114,8 @@ sed -i "s/#BRIDGE#/${BRIDGE}/g" /etc/dnsmasq.d/eb_interface
 # recreate the custom tables
 if [[ "$RECREATE_CUSTOM_NFTABLES" = true ]]
 then
-    nft delete table inet talia-filter || true
-    nft delete table ip talia-nat || true
+    nft delete table inet eb-filter 2>/dev/null || true
+    nft delete table ip eb-nat 2>/dev/null || true
 fi
 
 # table: eb-filter
