@@ -10,15 +10,15 @@ source $INSTALLER/000_source
 MACH="eb-buster"
 cd $MACHINES/$MACH
 
+echo
+echo "---------------------- $MACH CUSTOM -----------------------"
+
 ROOTFS="/var/lib/lxc/$MACH/rootfs"
 
 # -----------------------------------------------------------------------------
 # INIT
 # -----------------------------------------------------------------------------
-[ "$DONT_RUN_BUSTER_CUSTOM" = true ] && exit
-
-echo
-echo "---------------------- $MACH CUSTOM -----------------------"
+[ "$DONT_RUN_BUSTER_CUSTOM" = true ] && echo 'Skipped...' && exit
 
 # start container
 lxc-start -n $MACH -d

@@ -10,6 +10,9 @@ source $INSTALLER/000_source
 MACH="eb-stretch"
 cd $MACHINES/$MACH
 
+echo
+echo "-------------------------- $MACH --------------------------"
+
 ROOTFS="/var/lib/lxc/$MACH/rootfs"
 DNS_RECORD=$(grep "address=/$MACH/" /etc/dnsmasq.d/eb_hosts | head -n1)
 IP=${DNS_RECORD##*/}
@@ -27,12 +30,9 @@ nft delete element eb-nat tcp2port { $SSH_PORT } || true
 nft add element eb-nat tcp2port { $SSH_PORT : 22 }
 
 # -----------------------------------------------------------------------------
-# INIT
+# RUN or EXIT
 # -----------------------------------------------------------------------------
-[ "$DONT_RUN_STRETCH" = true ] && exit
-
-echo
-echo "-------------------------- $MACH --------------------------"
+[ "$DONT_RUN_STRETCH" = true ] && echo 'Skipped...' && exit
 
 # -----------------------------------------------------------------------------
 # REINSTALL_IF_EXISTS

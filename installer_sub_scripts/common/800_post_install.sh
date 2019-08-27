@@ -12,4 +12,4 @@ source $INSTALLER/000_source
 [ "$DONT_RUN_POST_INSTALL" = true ] && exit
 
 echo
-echo "----------------------- POST INSTALL -----------------------"
+echo "---------------------- POST INSTALL -----------------------"

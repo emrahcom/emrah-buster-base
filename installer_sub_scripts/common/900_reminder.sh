@@ -12,7 +12,7 @@ source $INSTALLER/000_source
 [ "$DONT_RUN_REMINDER" = true ] && exit
 
 echo
-echo "------------------------- REMINDER -------------------------"
+echo "------------------------- REMINDER ------------------------"
 
 if [ "0" = "$SWAP" ]
 then
