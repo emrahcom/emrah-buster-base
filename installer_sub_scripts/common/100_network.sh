@@ -12,9 +12,6 @@ source $INSTALLER/000_source
 MACH="eb-host"
 cd $MACHINES/$MACH
 
-echo
-echo "------------------------ NETWORK --------------------------"
-
 # public interface
 DEFAULT_ROUTE=$(ip route | egrep '^default ' | head -n1)
 PUBLIC_INTERFACE=${DEFAULT_ROUTE##*dev }
@@ -33,9 +30,12 @@ REMOTE_IP=$(ip addr show $PUBLIC_INTERFACE | ack "$PUBLIC_INTERFACE$" | \
 echo REMOTE_IP="$REMOTE_IP" >> $INSTALLER/000_source
 
 # -----------------------------------------------------------------------------
-# RUN or EXIT
+# INIT
 # -----------------------------------------------------------------------------
-[ "$DONT_RUN_NETWORK_INIT" = true ] && echo 'Skipped...' && exit
+[ "$DONT_RUN_NETWORK_INIT" = true ] && exit
+
+echo
+echo "------------------------ NETWORK --------------------------"
 
 # -----------------------------------------------------------------------------
 # BACKUP & STATUS

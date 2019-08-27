@@ -10,9 +10,6 @@ source $INSTALLER/000_source
 MACH="eb-buster"
 cd $MACHINES/$MACH
 
-echo
-echo "-------------------------- $MACH --------------------------"
-
 ROOTFS="/var/lib/lxc/$MACH/rootfs"
 DNS_RECORD=$(grep "address=/$MACH/" /etc/dnsmasq.d/eb_hosts | head -n1)
 IP=${DNS_RECORD##*/}
@@ -23,15 +20,18 @@ echo BUSTER="$IP" >> $INSTALLER/000_source
 # NFTABLES RULES
 # -----------------------------------------------------------------------------
 # public ssh
-nft delete element eb-nat tcp2ip { $SSH_PORT } || true
+nft delete element eb-nat tcp2ip { $SSH_PORT } 2>/dev/null || true
 nft add element eb-nat tcp2ip { $SSH_PORT : $IP }
-nft delete element eb-nat tcp2port { $SSH_PORT } || true
+nft delete element eb-nat tcp2port { $SSH_PORT } 2>/dev/null || true
 nft add element eb-nat tcp2port { $SSH_PORT : 22 }
 
 # -----------------------------------------------------------------------------
-# RUN or EXIT
+# INIT
 # -----------------------------------------------------------------------------
-[ "$DONT_RUN_BUSTER" = true ] && echo 'Skipped...' && exit
+[ "$DONT_RUN_BUSTER" = true ] && exit
+
+echo
+echo "-------------------------- $MACH --------------------------"
 
 # -----------------------------------------------------------------------------
 # REINSTALL_IF_EXISTS
