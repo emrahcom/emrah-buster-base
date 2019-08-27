@@ -26,5 +26,6 @@ then
 fi
 
 echo
-echo "Install the 'open-vm-tools' package to the host (VM only)"
+echo "Install the 'open-vm-tools' package to the host if this is"
+echo "a VMware machine"
 echo ">>> apt-get install open-vm-tools"
