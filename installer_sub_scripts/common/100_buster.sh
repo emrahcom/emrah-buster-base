@@ -20,7 +20,10 @@ echo BUSTER="$IP" >> $INSTALLER/000_source
 # NFTABLES RULES
 # -----------------------------------------------------------------------------
 # public ssh
+nft delete element eb-nat tcp2ip { $SSH_PORT } || true
 nft add element eb-nat tcp2ip { $SSH_PORT : $IP }
+
+nft delete element eb-nat tcp2port { $SSH_PORT } || true
 nft add element eb-nat tcp2port { $SSH_PORT : 22 }
 
 # -----------------------------------------------------------------------------
