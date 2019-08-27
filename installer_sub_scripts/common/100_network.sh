@@ -144,7 +144,7 @@ ack 'ip saddr 172.22.22.0/24 masquerade')" ]] && \
     ip saddr 172.22.22.0/24 masquerade
 
 # table: eb-nat
-# chains: prerouting, output
+# chains: prerouting
 # maps: tcp2ip, tcp2port
 # rules: tcp dnat
 nft add map ip eb-nat tcp2ip \
@@ -158,7 +158,7 @@ ack 'tcp dport map @tcp2ip:tcp dport map @tcp2port')" ]] && \
     tcp dport map @tcp2ip:tcp dport map @tcp2port
 
 # table: eb-nat
-# chains: prerouting, output
+# chains: prerouting
 # maps: udp2ip, udp2port
 # rules: udp dnat
 nft add map ip eb-nat udp2ip \
