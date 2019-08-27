@@ -25,7 +25,6 @@ echo STRETCH="$IP" >> $INSTALLER/000_source
 # public ssh
 nft delete element eb-nat tcp2ip { $SSH_PORT } || true
 nft add element eb-nat tcp2ip { $SSH_PORT : $IP }
-
 nft delete element eb-nat tcp2port { $SSH_PORT } || true
 nft add element eb-nat tcp2port { $SSH_PORT : 22 }
 
