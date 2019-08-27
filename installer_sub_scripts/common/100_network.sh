@@ -111,9 +111,9 @@ sed -i "s/#BRIDGE#/${BRIDGE}/g" /etc/dnsmasq.d/eb_interface
 # -----------------------------------------------------------------------------
 # NFTABLES
 # -----------------------------------------------------------------------------
-TABLE_EXISTS=$(nft list ruleset | grep "table inet eb-filter" || true)
-[ -n "$TABLE_EXISTS" ] && nft delete table inet eb-filter
-
+# table: eb-filter
+# chains: input, forward, output
+# rules: drop from the public interface to the private internal network
 nft add table inet eb-filter
 nft add chain inet eb-filter \
     input { type filter hook input priority 0 \; }
@@ -121,13 +121,14 @@ nft add chain inet eb-filter \
     forward { type filter hook forward priority 0 \; }
 nft add chain inet eb-filter \
     output { type filter hook output priority 0 \; }
-# drop packets coming from the public interface to the private network
-nft add rule inet eb-filter output \
+[[ -z "$(nft list chain inet eb-filter output | \
+ack 'ip daddr 172.22.22.0/24 drop')" ]] && \
+    nft add rule inet eb-filter output \
     iif $PUBLIC_INTERFACE ip daddr 172.22.22.0/24 drop
 
-TABLE_EXISTS=$(nft list ruleset | grep "table ip eb-nat" || true)
-[ -n "$TABLE_EXISTS" ] && nft delete table ip eb-nat
-
+# table: eb-nat
+# chains: prerouting, postrouting, output, input
+# rules: masquerade
 nft add table ip eb-nat
 nft add chain ip eb-nat prerouting \
     { type nat hook prerouting priority 0 \; }
@@ -137,32 +138,37 @@ nft add chain ip eb-nat output \
     { type nat hook output priority 0 \; }
 nft add chain ip eb-nat input \
     { type nat hook input priority 0 \; }
-# masquerade packets coming from the private network
-nft add rule ip eb-nat postrouting \
+[[ -z "$(nft list chain ip eb-nat postrouting | \
+ack 'ip saddr 172.22.22.0/24 masquerade')" ]] && \
+    nft add rule ip eb-nat postrouting \
     ip saddr 172.22.22.0/24 masquerade
 
-# dnat tcp maps
+# table: eb-nat
+# chains: prerouting, output
+# maps: tcp2ip, tcp2port
+# rules: tcp dnat
 nft add map ip eb-nat tcp2ip \
     { type inet_service : ipv4_addr \; }
 nft add map ip eb-nat tcp2port \
     { type inet_service : inet_service \; }
-nft add rule ip eb-nat prerouting \
+[[ -z "$(nft list chain ip eb-nat prerouting | \
+ack 'tcp dport map @tcp2ip:tcp dport map @tcp2port')" ]] && \
+    nft add rule ip eb-nat prerouting \
     iif $PUBLIC_INTERFACE dnat \
     tcp dport map @tcp2ip:tcp dport map @tcp2port
-nft add rule ip eb-nat output \
-    oif lo dnat \
-    tcp dport map @tcp2ip:tcp dport map @tcp2port
 
-# dnat udp maps
+# table: eb-nat
+# chains: prerouting, output
+# maps: udp2ip, udp2port
+# rules: udp dnat
 nft add map ip eb-nat udp2ip \
     { type inet_service : ipv4_addr \; }
 nft add map ip eb-nat udp2port \
     { type inet_service : inet_service \; }
-nft add rule ip eb-nat prerouting \
+[[ -z "$(nft list chain ip eb-nat prerouting | \
+ack 'udp dport map @udp2ip:udp dport map @udp2port')" ]] && \
+    nft add rule ip eb-nat prerouting \
     iif $PUBLIC_INTERFACE dnat \
-    udp dport map @udp2ip:udp dport map @udp2port
-nft add rule ip eb-nat output \
-    oif lo dnat \
     udp dport map @udp2ip:udp dport map @udp2port
 
 # -----------------------------------------------------------------------------
