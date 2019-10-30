@@ -106,12 +106,10 @@ if [ "$DONT_CLONE_GIT_REPO" != true ]
 then
     rm -rf $BASE_TMP_DIR
     git clone --depth=1 -b $BASE_BRANCH $BASE_REPO $BASE_TMP_DIR
-    rm -rf $BASE_TMP_DIR/{.git,.gitignore}
 
     rm -rf $APP_TMP_DIR
     [ -n "$APP_REPO" ] && \
         git clone --depth=1 -b $APP_BRANCH $APP_REPO $APP_TMP_DIR
-    rm -rf $APP_TMP_DIR/{.git,.gitignore}
 fi
 
 # -----------------------------------------------------------------------------
@@ -119,11 +117,12 @@ fi
 # -----------------------------------------------------------------------------
 if [ "$BASE_INSTALLER" != "$APP_INSTALLER" ]
 then
-    rsync -av $BASEDIR/$APP_TMP_DIR/ $BASEDIR/$BASE_TMP_DIR/
-    rm -rf $BASEDIR/$APP_TMP_DIR
+    rm -rf $BASE_TMP_DIR/{.git,.gitignore}
+    rsync -av $APP_TMP_DIR/ $BASE_TMP_DIR/
+    rm -rf $APP_TMP_DIR
 fi
 
-mv $BASEDIR/$BASE_TMP_DIR $BASEDIR/$APP_TMP_DIR
+mv $BASE_TMP_DIR $APP_TMP_DIR
 
 # -----------------------------------------------------------------------------
 # RUNNING THE SUB INSTALLATION SCRIPTS
