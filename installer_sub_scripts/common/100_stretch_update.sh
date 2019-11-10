@@ -1,5 +1,5 @@
 # -----------------------------------------------------------------------------
-# BUSTER_CUSTOM.SH
+# STRETCH_UPDATE.SH
 # -----------------------------------------------------------------------------
 set -e
 source $INSTALLER/000_source
@@ -7,7 +7,7 @@ source $INSTALLER/000_source
 # -----------------------------------------------------------------------------
 # ENVIRONMENT
 # -----------------------------------------------------------------------------
-MACH="eb-buster"
+MACH="eb-stretch"
 cd $MACHINES/$MACH
 
 ROOTFS="/var/lib/lxc/$MACH/rootfs"
@@ -15,11 +15,11 @@ ROOTFS="/var/lib/lxc/$MACH/rootfs"
 # -----------------------------------------------------------------------------
 # INIT
 # -----------------------------------------------------------------------------
-[ "$BUSTER_SKIPPED" = true ] && exit
-[ "$DONT_RUN_BUSTER_CUSTOM" = true ] && exit
+[ "$STRETCH_SKIPPED" != true ] && exit
+[ "$DONT_RUN_STRETCH_UPDATE" = true ] && exit
 
 echo
-echo "---------------------- $MACH CUSTOM -----------------------"
+echo "---------------------- $MACH UPDATE -----------------------"
 
 # start container
 lxc-start -n $MACH -d
@@ -34,24 +34,6 @@ lxc-attach -n $MACH -- \
     "apt-get $APT_PROXY_OPTION update
      sleep 3
      apt-get $APT_PROXY_OPTION -y dist-upgrade"
-
-# packages
-lxc-attach -n $MACH -- \
-    zsh -c \
-    "apt-get $APT_PROXY_OPTION -y install less tmux vim autojump
-     apt-get $APT_PROXY_OPTION -y install curl dnsutils iputils-ping
-     apt-get $APT_PROXY_OPTION -y install htop bmon bwm-ng
-     apt-get $APT_PROXY_OPTION -y install rsync bzip2 man-db ack-grep"
-
-# -----------------------------------------------------------------------------
-# ROOT USER
-# -----------------------------------------------------------------------------
-# shell
-lxc-attach -n $MACH -- chsh -s /bin/zsh root
-cp root/.bashrc $ROOTFS/root/
-cp root/.vimrc $ROOTFS/root/
-cp root/.zshrc $ROOTFS/root/
-cp root/.tmux.conf $ROOTFS/root/
 
 # -----------------------------------------------------------------------------
 # CONTAINER SERVICES

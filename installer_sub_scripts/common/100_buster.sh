@@ -39,12 +39,12 @@ echo "-------------------------- $MACH --------------------------"
 EXISTS=$(lxc-info -n $MACH | egrep '^State' || true)
 if [ -n "$EXISTS" -a "$REINSTALL_BUSTER_IF_EXISTS" != true ]
 then
+    echo BUSTER_SKIPPED=true >> $INSTALLER/000_source
+
     echo "Already installed. Skipped..."
     echo
     echo "Please set REINSTALL_BUSTER_IF_EXISTS in $APP_CONFIG"
     echo "if you want to reinstall this container"
-
-    echo DONT_RUN_BUSTER_CUSTOM=true >> $INSTALLER/000_source
     exit
 fi
 
