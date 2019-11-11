@@ -24,6 +24,7 @@ echo "---------------------- $MACH UPDATE -----------------------"
 # start container
 lxc-start -n $MACH -d
 lxc-wait -n $MACH -s RUNNING
+lxc-attach -n $MACH -- ping -c1 debian.org
 
 # -----------------------------------------------------------------------------
 # PACKAGES
