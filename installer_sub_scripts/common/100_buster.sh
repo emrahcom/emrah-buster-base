@@ -112,7 +112,8 @@ lxc-attach -n $MACH -- apt-get $APT_PROXY_OPTION -y install apt-utils
 lxc-attach -n $MACH -- apt-get $APT_PROXY_OPTION -y install zsh
 lxc-attach -n $MACH -- \
     zsh -c \
-    "apt-get $APT_PROXY_OPTION -y install openssh-server openssh-client
+    "export DEBIAN_FRONTEND=noninteractive
+     apt-get $APT_PROXY_OPTION -y install openssh-server openssh-client
      apt-get $APT_PROXY_OPTION -y install cron logrotate
      apt-get $APT_PROXY_OPTION -y install dbus libpam-systemd
      apt-get $APT_PROXY_OPTION -y install wget ca-certificates"
