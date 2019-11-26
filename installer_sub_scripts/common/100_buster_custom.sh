@@ -41,7 +41,7 @@ lxc-attach -n $MACH -- \
     "apt-get $APT_PROXY_OPTION -y install less tmux vim autojump
      apt-get $APT_PROXY_OPTION -y install curl dnsutils iputils-ping
      apt-get $APT_PROXY_OPTION -y install htop bmon bwm-ng
-     apt-get $APT_PROXY_OPTION -y install rsync bzip2 man-db ack-grep"
+     apt-get $APT_PROXY_OPTION -y install rsync bzip2 man-db ack"
 
 # -----------------------------------------------------------------------------
 # ROOT USER
