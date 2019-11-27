@@ -23,6 +23,8 @@ echo "---------------------- HOST CUSTOM ------------------------"
 # -----------------------------------------------------------------------------
 # PACKAGES
 # -----------------------------------------------------------------------------
+export DEBIAN_FRONTEND=noninteractive
+
 # upgrade
 apt-get $APT_PROXY_OPTION -yd dist-upgrade
 apt-get $APT_PROXY_OPTION -y upgrade

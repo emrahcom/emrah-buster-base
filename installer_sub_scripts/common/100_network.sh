@@ -68,6 +68,8 @@ fi
 # -----------------------------------------------------------------------------
 # PACKAGES
 # -----------------------------------------------------------------------------
+export DEBIAN_FRONTEND=noninteractive
+
 # removed packages
 apt-get -y remove iptables
 

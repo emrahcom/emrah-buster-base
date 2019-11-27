@@ -31,7 +31,8 @@ lxc-wait -n $MACH -s RUNNING
 # update
 lxc-attach -n $MACH -- \
     zsh -c \
-    "apt-get $APT_PROXY_OPTION update
+    "export DEBIAN_FRONTEND=noninteractive
+     apt-get $APT_PROXY_OPTION update
      sleep 3
      apt-get $APT_PROXY_OPTION -y dist-upgrade"
 

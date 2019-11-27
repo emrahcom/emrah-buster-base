@@ -104,15 +104,23 @@ sleep 3
 # PACKAGES
 # -----------------------------------------------------------------------------
 # update
-lxc-attach -n $MACH -- apt-get $APT_PROXY_OPTION update; sleep 3
-lxc-attach -n $MACH -- apt-get $APT_PROXY_OPTION -y dist-upgrade
-lxc-attach -n $MACH -- apt-get $APT_PROXY_OPTION -y install apt-utils
+lxc-attach -n $MACH -- \
+    bash -c \
+    "export DEBIAN_FRONTEND=noninteractive
+     apt-get $APT_PROXY_OPTION update
+     sleep 3
+     apt-get $APT_PROXY_OPTION -y dist-upgrade"
 
 # packages
-lxc-attach -n $MACH -- apt-get $APT_PROXY_OPTION -y install zsh
+lxc-attach -n $MACH -- \
+    bash -c \
+    "export DEBIAN_FRONTEND=noninteractive
+     apt-get $APT_PROXY_OPTION -y install apt-utils
+     apt-get $APT_PROXY_OPTION -y install zsh"
 lxc-attach -n $MACH -- \
     zsh -c \
-    "apt-get $APT_PROXY_OPTION -y install openssh-server openssh-client
+    "export DEBIAN_FRONTEND=noninteractive
+     apt-get $APT_PROXY_OPTION -y install openssh-server openssh-client
      apt-get $APT_PROXY_OPTION -y install cron logrotate
      apt-get $APT_PROXY_OPTION -y install dbus libpam-systemd
      apt-get $APT_PROXY_OPTION -y install wget ca-certificates"
