@@ -99,7 +99,6 @@ cp etc/apt/apt.conf.d/80disable-recommends $ROOTFS/etc/apt/apt.conf.d/
 # start container
 lxc-start -n $MACH -d
 lxc-wait -n $MACH -s RUNNING
-sleep 3
 
 # -----------------------------------------------------------------------------
 # PACKAGES
@@ -108,8 +107,8 @@ sleep 3
 lxc-attach -n $MACH -- \
     bash -c \
     "export DEBIAN_FRONTEND=noninteractive
+     find /var/lib/apt/lists -type f -delete
      apt-get $APT_PROXY_OPTION update
-     sleep 3
      apt-get $APT_PROXY_OPTION -y dist-upgrade"
 
 # packages
