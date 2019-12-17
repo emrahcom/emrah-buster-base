@@ -103,11 +103,16 @@ lxc-wait -n $MACH -s RUNNING
 # -----------------------------------------------------------------------------
 # PACKAGES
 # -----------------------------------------------------------------------------
+# fake install
+lxc-attach -n $MACH -- \
+    bash -c \
+    "export DEBIAN_FRONTEND=noninteractive
+     apt-get $APT_PROXY_OPTION -dy reinstall hostname"
+
 # update
 lxc-attach -n $MACH -- \
     bash -c \
     "export DEBIAN_FRONTEND=noninteractive
-     find /var/lib/apt/lists -type f -delete
      apt-get $APT_PROXY_OPTION update
      apt-get $APT_PROXY_OPTION -y dist-upgrade"
 
