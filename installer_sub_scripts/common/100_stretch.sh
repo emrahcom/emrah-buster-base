@@ -107,7 +107,7 @@ lxc-wait -n $MACH -s RUNNING
 lxc-attach -n $MACH -- \
     bash -c \
     "export DEBIAN_FRONTEND=noninteractive
-     apt-get $APT_PROXY_OPTION -dy reinstall hostname"
+     apt-get $APT_PROXY_OPTION -dy install --reinstall hostname"
 
 # update
 lxc-attach -n $MACH -- \
