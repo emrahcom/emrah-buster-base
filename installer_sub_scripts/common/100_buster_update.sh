@@ -24,7 +24,10 @@ echo "---------------------- $MACH UPDATE -----------------------"
 # start container
 lxc-start -n $MACH -d
 lxc-wait -n $MACH -s RUNNING
-lxc-attach -n $MACH -- ping -c1 debian.org
+lxc-attach -n $MACH -- \
+    zsh -c \
+    "set -e
+     ping -c1 debian.org"
 
 # -----------------------------------------------------------------------------
 # PACKAGES
@@ -32,7 +35,8 @@ lxc-attach -n $MACH -- ping -c1 debian.org
 # update
 lxc-attach -n $MACH -- \
     zsh -c \
-    "export DEBIAN_FRONTEND=noninteractive
+    "set -e
+     export DEBIAN_FRONTEND=noninteractive
      apt-get $APT_PROXY_OPTION update && sleep 3
      apt-get $APT_PROXY_OPTION -y dist-upgrade"
 

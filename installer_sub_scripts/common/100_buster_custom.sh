@@ -31,14 +31,16 @@ lxc-wait -n $MACH -s RUNNING
 # update
 lxc-attach -n $MACH -- \
     zsh -c \
-    "export DEBIAN_FRONTEND=noninteractive
+    "set -e
+     export DEBIAN_FRONTEND=noninteractive
      apt-get $APT_PROXY_OPTION update && sleep 3
      apt-get $APT_PROXY_OPTION -y dist-upgrade"
 
 # packages
 lxc-attach -n $MACH -- \
     zsh -c \
-    "export DEBIAN_FRONTEND=noninteractive
+    "set -e
+     export DEBIAN_FRONTEND=noninteractive
      apt-get $APT_PROXY_OPTION -y install less tmux vim autojump
      apt-get $APT_PROXY_OPTION -y install curl dnsutils iputils-ping
      apt-get $APT_PROXY_OPTION -y install htop bmon bwm-ng
@@ -48,7 +50,10 @@ lxc-attach -n $MACH -- \
 # ROOT USER
 # -----------------------------------------------------------------------------
 # shell
-lxc-attach -n $MACH -- chsh -s /bin/zsh root
+lxc-attach -n $MACH -- \
+    zsh -c \
+    "set -e
+     chsh -s /bin/zsh root"
 cp root/.bashrc $ROOTFS/root/
 cp root/.vimrc $ROOTFS/root/
 cp root/.zshrc $ROOTFS/root/
