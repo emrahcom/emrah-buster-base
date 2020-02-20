@@ -50,10 +50,7 @@ lxc-attach -n $MACH -- \
 # ROOT USER
 # -----------------------------------------------------------------------------
 # shell
-lxc-attach -n $MACH -- \
-    zsh -c \
-    "set -e
-     chsh -s /bin/zsh root"
+lxc-attach -n $MACH -- chsh -s /bin/zsh root
 cp root/.bashrc $ROOTFS/root/
 cp root/.vimrc $ROOTFS/root/
 cp root/.zshrc $ROOTFS/root/
