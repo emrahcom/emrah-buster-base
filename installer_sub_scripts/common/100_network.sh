@@ -85,11 +85,13 @@ cp etc/dnsmasq.d/eb_hosts /etc/dnsmasq.d/
 # /etc/network/interfaces
 [ -z "$(egrep '^source-directory\s*interfaces.d' /etc/network/interfaces || true)" ] && \
 [ -z "$(egrep '^source-directory\s*/etc/network/interfaces.d' /etc/network/interfaces || true)" ] && \
-[ -z "$(egrep '^source\s*interfaces.d/\*' /etc/network/interfaces || true)" ] && \
-[ -z "$(egrep '^source\s*/etc/network/interfaces.d/\*' /etc/network/interfaces || true)" ] && \
-[ -z "$(egrep '^source\s*interfaces.d/eb_bridge' /etc/network/interfaces || true)" ] && \
-[ -z "$(egrep '^source\s*/etc/network/interfaces.d/eb_bridge' /etc/network/interfaces || true)" ] && \
-echo -e "\nsource /etc/network/interfaces.d/eb_bridge" >> /etc/network/interfaces
+[ -z "$(egrep '^source\s*interfaces.d/\*$' /etc/network/interfaces || true)" ] && \
+[ -z "$(egrep '^source\s*/etc/network/interfaces.d/\*$' /etc/network/interfaces || true)" ] && \
+[ -z "$(egrep '^source\s*interfaces.d/\*\.cfg' /etc/network/interfaces || true)" ] && \
+[ -z "$(egrep '^source\s*/etc/network/interfaces.d/\*\.cfg' /etc/network/interfaces || true)" ] && \
+[ -z "$(egrep '^source\s*interfaces.d/eb_bridge.cfg' /etc/network/interfaces || true)" ] && \
+[ -z "$(egrep '^source\s*/etc/network/interfaces.d/eb_bridge.cfg' /etc/network/interfaces || true)" ] && \
+echo -e "\nsource /etc/network/interfaces.d/eb_bridge.cfg" >> /etc/network/interfaces
 
 # IP forwarding
 cp etc/sysctl.d/eb_ip_forward.conf /etc/sysctl.d/
@@ -105,8 +107,9 @@ ip link set $BRIDGE up
 IP_EXISTS=$(ip a show dev $BRIDGE | egrep "inet $IP/24" || true)
 [ -z "$IP_EXISTS" ] && ip addr add dev $BRIDGE $IP/24 brd 172.22.22.255
 
-cp etc/network/interfaces.d/eb_bridge /etc/network/interfaces.d/
-sed -i "s/#BRIDGE#/${BRIDGE}/g" /etc/network/interfaces.d/eb_bridge
+rm /etc/network/interfaces.d/eb_bridge
+cp etc/network/interfaces.d/eb_bridge.cfg /etc/network/interfaces.d/
+sed -i "s/#BRIDGE#/${BRIDGE}/g" /etc/network/interfaces.d/eb_bridge.cfg
 cp etc/dnsmasq.d/eb_interface /etc/dnsmasq.d/
 sed -i "s/#BRIDGE#/${BRIDGE}/g" /etc/dnsmasq.d/eb_interface
 
