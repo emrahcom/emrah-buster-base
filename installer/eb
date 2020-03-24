@@ -128,8 +128,9 @@ mv $BASE_TMP_DIR $APP_TMP_DIR
 # RUNNING THE SUB INSTALLATION SCRIPTS
 # -----------------------------------------------------------------------------
 export TMP=$APP_TMP_DIR
-export INSTALLER=$BASEDIR/$TMP/installer_sub_scripts/$APP_INSTALLER
-export MACHINES=$BASEDIR/$TMP/machines
+export ROOTDIR=$BASEDIR/$TMP
+export INSTALLER=$ROOTDIR/installer_sub_scripts/$APP_INSTALLER
+export MACHINES=$ROOTDIR/machines
 export MACHINE_HOST=$MACHINES/eb-host
 export MACHINE_BUSTER=$MACHINES/eb-buster
 export MACHINE_STRETCH=$MACHINES/eb-stretch
