@@ -1,2 +1,2 @@
 bind-interfaces
-interface=#BRIDGE#
+interface=___BRIDGE___

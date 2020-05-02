@@ -109,9 +109,9 @@ IP_EXISTS=$(ip a show dev $BRIDGE | egrep "inet $IP/24" || true)
 
 rm -f /etc/network/interfaces.d/eb_bridge
 cp etc/network/interfaces.d/eb_bridge.cfg /etc/network/interfaces.d/
-sed -i "s/#BRIDGE#/${BRIDGE}/g" /etc/network/interfaces.d/eb_bridge.cfg
+sed -i "s/___BRIDGE___/${BRIDGE}/g" /etc/network/interfaces.d/eb_bridge.cfg
 cp etc/dnsmasq.d/eb_interface /etc/dnsmasq.d/
-sed -i "s/#BRIDGE#/${BRIDGE}/g" /etc/dnsmasq.d/eb_interface
+sed -i "s/___BRIDGE___/${BRIDGE}/g" /etc/dnsmasq.d/eb_interface
 
 # -----------------------------------------------------------------------------
 # NFTABLES
