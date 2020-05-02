@@ -107,8 +107,13 @@ ip link set $BRIDGE up
 IP_EXISTS=$(ip a show dev $BRIDGE | egrep "inet $IP/24" || true)
 [ -z "$IP_EXISTS" ] && ip addr add dev $BRIDGE $IP/24 brd 172.22.22.255
 
+# the random MAC address for the dummy interface
+MAC_ADDRESS=$(date +'52:54:%d:%H:%M:%S')
+
 rm -f /etc/network/interfaces.d/eb_bridge
 cp etc/network/interfaces.d/eb_bridge.cfg /etc/network/interfaces.d/
+sed -i "s/___MAC_ADDRESS___/${MAC_ADDRESS}/g" \
+    /etc/network/interfaces.d/eb_bridge.cfg
 sed -i "s/___BRIDGE___/${BRIDGE}/g" /etc/network/interfaces.d/eb_bridge.cfg
 cp etc/dnsmasq.d/eb_interface /etc/dnsmasq.d/
 sed -i "s/___BRIDGE___/${BRIDGE}/g" /etc/dnsmasq.d/eb_interface
