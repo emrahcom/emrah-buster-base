@@ -31,7 +31,7 @@ apt-get $APT_PROXY_OPTION -y upgrade
 
 # added packages
 apt-get $APT_PROXY_OPTION -y install cron
-apt-get $APT_PROXY_OPTION -y install zsh tmux vim
+apt-get $APT_PROXY_OPTION -y install zsh tmux vim autojump
 apt-get $APT_PROXY_OPTION -y install htop iotop bmon bwm-ng
 apt-get $APT_PROXY_OPTION -y install iputils-ping fping whois dnsutils
 apt-get $APT_PROXY_OPTION -y install wget curl rsync
