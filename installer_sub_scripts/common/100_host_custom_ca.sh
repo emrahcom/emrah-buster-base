@@ -34,7 +34,7 @@ apt-get $APT_PROXY_OPTION -y install openssl
 # the CA key and the CA certificate
 [ ! -d "/root/eb_ssl" ] && mkdir /root/eb_ssl
 
-if [ ! -f "/root/eb_ssl/eb_CA.pem" ]
+if [ ! -f "/root/eb_ssl/eb_CA.crt" ]
 then
     cd /root/eb_ssl
     rm -f eb_CA.key
@@ -42,4 +42,6 @@ then
     openssl req -nodes -new -x509 -days 10950 \
         -keyout eb_CA.key -out eb_CA.pem \
         -subj "/O=emrah-buster/OU=CA/CN=emrah-buster $DATE-$RANDOM"
+
+    openssl x509 -outform der -in eb_CA.pem -out eb_CA.crt
 fi
