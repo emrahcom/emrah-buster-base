@@ -37,7 +37,7 @@ apt-get $APT_PROXY_OPTION -y install openssl
 if [ ! -f "/root/eb_ssl/eb_CA.crt" ]
 then
     cd /root/eb_ssl
-    rm -f eb_CA.key
+    rm -f eb_CA.key eb_CA.pem
 
     openssl req -nodes -new -x509 -days 10950 \
         -keyout eb_CA.key -out eb_CA.pem \
