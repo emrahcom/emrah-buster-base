@@ -1,0 +1,5 @@
+#compdef lxc-attach lxc-start lxc-stop
+
+local -a containers
+containers=( $(/bin/ls /var/lib/lxc) )
+_describe container containers

@@ -45,6 +45,12 @@ apt-get $APT_PROXY_OPTION -y install net-tools rsyslog
 cp etc/cron.d/eb_update /etc/cron.d/
 
 # -----------------------------------------------------------------------------
+# ZSH
+# -----------------------------------------------------------------------------
+# zsh lxc autocomplete function
+cp usr/local/share/zsh/site-functions/_lxc /usr/local/share/zsh/site-functions/
+
+# -----------------------------------------------------------------------------
 # OPENNTPD
 # -----------------------------------------------------------------------------
 # install openntpd if I'm not in LXC container
@@ -58,6 +64,12 @@ fi
 # -----------------------------------------------------------------------------
 # ROOT USER
 # -----------------------------------------------------------------------------
+# rc files
+[ ! -f "/root/.bashrc" ] && cp root/.bashrc /root/
+[ ! -f "/root/.vimrc" ] && cp root/.vimrc /root/
+[ ! -f "/root/.zshrc" ] && cp root/.zshrc /root/
+[ ! -f "/root/.tmux.conf" ] && cp root/.tmux.conf /root/
+
 # added directories
 mkdir -p /root/eb_scripts
 
