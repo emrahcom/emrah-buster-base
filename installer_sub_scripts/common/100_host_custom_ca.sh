@@ -32,9 +32,9 @@ apt-get $APT_PROXY_OPTION -y install openssl
 # CA CERTIFICATE & KEY
 # -----------------------------------------------------------------------------
 # the CA key and the CA certificate
-[ ! -d "/root/eb_ssl" ] && mkdir /root/eb_ssl
+[[ ! -d "/root/eb_ssl" ]] && mkdir /root/eb_ssl
 
-if [ ! -f "/root/eb_ssl/eb_CA.pem" ]
+if [[ ! -f "/root/eb_ssl/eb_CA.pem" ]]
 then
     cd /root/eb_ssl
     rm -f eb_CA.key
