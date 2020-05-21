@@ -109,6 +109,7 @@ lxc-attach -n $MACH -- \
     "set -e
      export DEBIAN_FRONTEND=noninteractive
      apt-get $APT_PROXY_OPTION update && sleep 3
+     apt-get $APT_PROXY_OPTION update
      apt-get $APT_PROXY_OPTION -y dist-upgrade"
 
 # packages
