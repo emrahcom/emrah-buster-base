@@ -108,8 +108,12 @@ lxc-attach -n $MACH -- \
     bash -c \
     "set -e
      export DEBIAN_FRONTEND=noninteractive
-     apt-get $APT_PROXY_OPTION update && sleep 3
-     apt-get $APT_PROXY_OPTION update
+
+     for i in 1 2 3; do
+         apt -y update && break
+         sleep 1
+     done
+
      apt-get $APT_PROXY_OPTION -y dist-upgrade"
 
 # packages
