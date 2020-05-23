@@ -110,7 +110,7 @@ lxc-attach -n $MACH -- \
      export DEBIAN_FRONTEND=noninteractive
 
      for i in 1 2 3; do
-         apt -y update && break
+         apt -y update && sleep 3 && break
          sleep 1
      done
 
