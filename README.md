@@ -53,7 +53,12 @@ machine. Please, use one of the followings as a host:
 
 -  a virtual machine (VMware, VirtualBox etc)
 
--  a Debian Buster container
+-  a Debian Buster container (_with the nesting support_)...
+   ```
+   lxc.include = /usr/share/lxc/config/nesting.conf
+   lxc.apparmor.profile = unconfined
+   lxc.apparmor.allow_nesting = 1
+   ```
 
 -  a physical machine with a fresh installed
    [Debian Buster (_version 10_)](https://www.debian.org/distrib/netinst)
