@@ -1,2 +1,3 @@
 bind-interfaces
 interface=___BRIDGE___
+dhcp-range=interface:___BRIDGE___,172.22.22.200,172.22.22.250,1h
