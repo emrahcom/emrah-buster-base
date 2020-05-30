@@ -99,6 +99,7 @@ cp etc/apt/apt.conf.d/80disable-recommends $ROOTFS/etc/apt/apt.conf.d/
 # start container
 lxc-start -n $MACH -d
 lxc-wait -n $MACH -s RUNNING
+sleep 1
 
 # -----------------------------------------------------------------------------
 # PACKAGES
