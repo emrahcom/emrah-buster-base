@@ -35,8 +35,8 @@ lxc-attach -n $MACH -- \
      export DEBIAN_FRONTEND=noninteractive
 
      for i in 1 2 3; do
-         apt -y update && sleep 3 && break
          sleep 1
+         apt-get -y --allow-releaseinfo-change update && sleep 3 && break
      done
 
      apt-get $APT_PROXY_OPTION -y dist-upgrade"
