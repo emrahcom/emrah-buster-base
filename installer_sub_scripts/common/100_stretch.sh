@@ -112,7 +112,7 @@ lxc-attach -n $MACH -- \
 
      for i in 1 2 3; do
          sleep 1
-         apt-get -y --allow-releaseinfo-change update && sleep 3 && break
+         apt-get -y update && sleep 3 && break
      done
 
      apt-get $APT_PROXY_OPTION -y dist-upgrade"
