@@ -90,7 +90,18 @@ then
     exit 1
 fi
 
+# -----------------------------------------------------------------------------
+# trap on exit
+# -----------------------------------------------------------------------------
 set -e
+
+function on_exit {
+    [[ "$COMPLETED" != true ]] && \
+      echo -e "\nSomething went wrong. The installation couldn't be completed!"
+}
+
+COMPLETED=false
+trap on_exit EXIT
 
 # -----------------------------------------------------------------------------
 # BASE PACKAGES
@@ -148,5 +159,6 @@ done
 # -----------------------------------------------------------------------------
 END_TIME=$(date +%s)
 DURATION=$(date -u -d "0 $END_TIME seconds - $START_TIME seconds" +"%H:%M:%S")
+COMPLETED=true
 
 echo Installation Duration: $DURATION
