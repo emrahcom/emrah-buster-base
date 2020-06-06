@@ -96,8 +96,12 @@ fi
 set -e
 
 function on_exit {
-    [[ "$COMPLETED" != true ]] && \
-      echo -e "\nSomething went wrong. The installation couldn't be completed!"
+if [[ "$COMPLETED" != true ]]; then
+    echo -e "\nSomething went wrong. The installation couldn't be completed!"
+    exit 1
+fi
+
+exit 0
 }
 
 COMPLETED=false
