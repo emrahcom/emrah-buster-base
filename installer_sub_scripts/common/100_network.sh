@@ -93,6 +93,19 @@ cp etc/dnsmasq.d/eb_hosts /etc/dnsmasq.d/
 [ -z "$(egrep '^source\s*/etc/network/interfaces.d/eb_bridge.cfg' /etc/network/interfaces || true)" ] && \
 echo -e "\nsource /etc/network/interfaces.d/eb_bridge.cfg" >> /etc/network/interfaces
 
+# /etc/network/cloud-interfaces-template
+if [ -f "/etc/network/cloud-interfaces-template" ]; then
+    [ -z "$(egrep '^source-directory\s*interfaces.d' /etc/network/cloud-interfaces-template || true)" ] && \
+    [ -z "$(egrep '^source-directory\s*/etc/network/interfaces.d' /etc/network/cloud-interfaces-template || true)" ] && \
+    [ -z "$(egrep '^source\s*interfaces.d/\*$' /etc/network/cloud-interfaces-template || true)" ] && \
+    [ -z "$(egrep '^source\s*/etc/network/interfaces.d/\*$' /etc/network/cloud-interfaces-template || true)" ] && \
+    [ -z "$(egrep '^source\s*interfaces.d/\*\.cfg' /etc/network/cloud-interfaces-template || true)" ] && \
+    [ -z "$(egrep '^source\s*/etc/network/interfaces.d/\*\.cfg' /etc/network/cloud-interfaces-template || true)" ] && \
+    [ -z "$(egrep '^source\s*interfaces.d/eb_bridge.cfg' /etc/network/cloud-interfaces-template || true)" ] && \
+    [ -z "$(egrep '^source\s*/etc/network/interfaces.d/eb_bridge.cfg' /etc/network/cloud-interfaces-template || true)" ] && \
+    echo -e "\nsource /etc/network/interfaces.d/eb_bridge.cfg" >> /etc/network/cloud-interfaces-template
+fi
+
 # IP forwarding
 cp etc/sysctl.d/eb_ip_forward.conf /etc/sysctl.d/
 sysctl -p /etc/sysctl.d/eb_ip_forward.conf
