@@ -20,8 +20,9 @@ EOF
 
 certbot certonly $DRYRUN --agree-tos --webroot -w /var/www/html -d $FQDN
 
-chmod 750 /etc/letsencrypt/{archive,live}
 chown root:ssl-cert /etc/letsencrypt/{archive,live}
+chmod 750 /etc/letsencrypt/{archive,live}
+find /etc/letsencrypt/archive/ -name "privkey*.pem" -exec chmod 744 {} \;
 rm -f /etc/ssl/certs/ssl-eb.pem
 rm -f /etc/ssl/private/ssl-eb.key
 ln -s /etc/letsencrypt/live/$FQDN/fullchain.pem /etc/ssl/certs/ssl-eb.pem
