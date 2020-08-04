@@ -5,9 +5,13 @@ set -e
 # SET-LETSENCRYPT-CERT
 # -----------------------------------------------------------------------------
 # Get and set the Let's Encrypt certificate.
+# FQDN can be a single domain or comma-seperated list of domains (no space)
 #
 # Usage:
 #     set-letsencrypt-cert <FQDN>
+# Example:
+#     set-letsencrypt-cert www.mydomain.com
+#     set-letsencrypt-cert www.mydomain.com,www2.mydomain.com,www.mydomain2.com
 # -----------------------------------------------------------------------------
 FQDN=$1
 #DRYRUN=--dry-run
