@@ -81,6 +81,7 @@ apt-get $APT_PROXY_OPTION -y install nftables
 # -----------------------------------------------------------------------------
 # changed/added system files
 cp etc/dnsmasq.d/eb_hosts /etc/dnsmasq.d/
+cp etc/dnsmasq.d/eb_resolv /etc/dnsmasq.d/
 
 # /etc/network/interfaces
 [ -z "$(egrep '^source-directory\s*interfaces.d' /etc/network/interfaces || true)" ] && \
