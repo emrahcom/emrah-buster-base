@@ -35,7 +35,7 @@ apt-get $APT_PROXY_OPTION -y install zsh tmux vim autojump
 apt-get $APT_PROXY_OPTION -y install htop iotop bmon bwm-ng
 apt-get $APT_PROXY_OPTION -y install iputils-ping fping whois
 apt-get $APT_PROXY_OPTION -y install wget curl rsync
-apt-get $APT_PROXY_OPTION -y install bzip2 rsync ack jq
+apt-get $APT_PROXY_OPTION -y install bzip2 ack jq
 apt-get $APT_PROXY_OPTION -y install net-tools rsyslog
 
 # -----------------------------------------------------------------------------
