@@ -4,12 +4,11 @@
 # EB (emrah-buster) INSTALLER
 # -----------------------------------------------------------------------------
 # The first argument is the template name and we need it.
-if [ -z "$1" ]
-then
-	echo "ERROR: missing argument. The template name is required"
-	echo "Usage:"
-	echo "         bash eb <TEMPLATE_NAME>"
-	exit 1
+if [ -z "$1" ]; then
+    echo "ERROR: missing argument. The template name is required"
+    echo "Usage:"
+    echo "         bash eb <TEMPLATE_NAME>"
+    exit 1
 fi
 
 export FREE_SPACE_NEEDED="1000000"
