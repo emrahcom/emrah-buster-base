@@ -49,6 +49,7 @@ lxc-attach -n $MACH -- \
      export DEBIAN_FRONTEND=noninteractive
      apt-get $APT_PROXY_OPTION -y install less tmux vim autojump
      apt-get $APT_PROXY_OPTION -y install curl dnsutils iputils-ping
+     apt-get $APT_PROXY_OPTION -y install net-tools ngrep ncat
      apt-get $APT_PROXY_OPTION -y install htop bmon bwm-ng
      apt-get $APT_PROXY_OPTION -y install rsync bzip2 man-db ack"
 
