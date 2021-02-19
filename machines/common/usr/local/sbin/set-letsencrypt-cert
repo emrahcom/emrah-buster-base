@@ -26,10 +26,10 @@ Usage:
 EOF
 
 certbot certonly --dry-run --non-interactive -m info@$FQDN --agree-tos \
-    --webroot -w /var/www/html -d $FQDNS || true
+    --duplicate --webroot -w /var/www/html -d $FQDNS || true
 sleep 3
 certbot certonly $DRYRUN --non-interactive -m info@$FQDN --agree-tos \
-    --webroot -w /var/www/html -d $FQDNS
+    --duplicate --webroot -w /var/www/html -d $FQDNS
 
 find /etc/letsencrypt/archive -name 'privkey*.pem' -exec chmod 640 {} \;
 chmod 750 /etc/letsencrypt/{archive,live}
