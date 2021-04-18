@@ -109,7 +109,8 @@ fi
 
 # IP forwarding
 cp etc/sysctl.d/eb_ip_forward.conf /etc/sysctl.d/
-sysctl -p /etc/sysctl.d/eb_ip_forward.conf
+sysctl -p /etc/sysctl.d/eb_ip_forward.conf || true
+[[ "$(cat /proc/sys/net/ipv4/ip_forward)" != 1 ]] && false
 
 # -----------------------------------------------------------------------------
 # BRIDGE CONFIG
