@@ -62,7 +62,8 @@ set -e
 
 # create the new one
 lxc-create -n $MACH -t download -P /var/lib/lxc/ -- \
-    -d debian -r buster -a $ARCH
+    -d debian -r buster -a $ARCH \
+    --keyserver "keyserver.ubuntu.com"
 
 # shared directories
 mkdir -p $SHARED/cache
