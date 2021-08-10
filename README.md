@@ -61,4 +61,4 @@ machine. Please, use one of the followings as a host:
    ```
 
 -  a physical machine with a fresh installed
-   [Debian Buster (_version 10_)](https://www.debian.org/distrib/netinst)
+   [Debian Buster (_version 10_)](https://www.debian.org/releases/buster/debian-installer/)
