@@ -63,7 +63,6 @@ set -e
 # create the new one
 lxc-create -n $MACH -t download -P /var/lib/lxc/ -- \
     -d debian -r stretch -a $ARCH \
-    --server "us.images.linuxcontainers.org" \
     --keyserver "keyserver.ubuntu.com"
 
 # shared directories
