@@ -55,7 +55,7 @@ cp usr/local/share/zsh/site-functions/_lxc /usr/local/share/zsh/site-functions/
 # OPENNTPD
 # -----------------------------------------------------------------------------
 # install openntpd if I'm not in LXC container
-if [ "$AM_I_IN_LXC" != true ]
+if [ "$IS_IN_LXC" != true ]
 then
     apt-get $APT_PROXY_OPTION -y install openntpd
     cp etc/default/openntpd /etc/default/
